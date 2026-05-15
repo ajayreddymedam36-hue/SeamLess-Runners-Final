@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Index from "./pages/Index.jsx";
+import Index from "./pages/index.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
 const App = () => (
