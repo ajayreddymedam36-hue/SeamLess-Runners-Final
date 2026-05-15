@@ -1,0 +1,351 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 200 80% 92%;
+    --foreground: 222 47% 11%;
+
+    --game-sky: 200 85% 75%;
+    --game-grass: 110 50% 55%;
+    --game-track: 35 35% 75%;
+    --game-wall: 12 65% 50%;
+    --game-tree: 130 55% 35%;
+    --game-tree-trunk: 25 45% 30%;
+    --game-mountain: 220 25% 55%;
+    --game-player: 220 85% 55%;
+    --game-coin: 45 95% 55%;
+    --game-obstacle: 0 75% 50%;
+    --game-barrier: 280 60% 50%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* ===== Endless Runner Game UI ===== */
+.runner-root {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(180deg, hsl(var(--game-sky)) 0%, hsl(200 70% 85%) 100%);
+}
+
+.runner-canvas { position: absolute; inset: 0; }
+
+.hud {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 28px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.hud-pill {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.hud-pill .label { font-size: 11px; opacity: 0.6; display: block; text-transform: uppercase; letter-spacing: 1.5px; }
+.hud-pill .value { font-size: 22px; font-weight: 800; }
+
+.controls-hint {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.8);
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: hsl(var(--foreground));
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  z-index: 5;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 30, 50, 0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: 20px;
+}
+
+.panel {
+  background: white;
+  border-radius: 24px;
+  padding: 32px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  animation: pop 0.25s ease-out;
+}
+
+@keyframes pop {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.panel h1 {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0 0 6px;
+  color: hsl(var(--foreground));
+  text-align: center;
+}
+
+.panel .subtitle {
+  text-align: center;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+.panel h3 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: hsl(var(--muted-foreground));
+  margin: 18px 0 10px;
+}
+
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.option-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+.opt-btn {
+  padding: 12px 8px;
+  border: 2px solid hsl(var(--border));
+  background: white;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: hsl(var(--foreground));
+}
+
+.opt-btn:hover { border-color: hsl(var(--game-player)); transform: translateY(-1px); }
+.opt-btn.active {
+  background: hsl(var(--game-player));
+  color: white;
+  border-color: hsl(var(--game-player));
+}
+
+.primary-btn {
+  width: 100%;
+  margin-top: 22px;
+  padding: 14px;
+  background: hsl(var(--game-player));
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 6px 18px hsl(var(--game-player) / 0.4);
+}
+
+.primary-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px hsl(var(--game-player) / 0.5); }
+.primary-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+.mcq-question {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 14px 0 18px;
+  line-height: 1.4;
+  color: hsl(var(--foreground));
+}
+
+.mcq-options { display: flex; flex-direction: column; gap: 10px; }
+
+.mcq-opt {
+  text-align: left;
+  padding: 14px 18px;
+  border: 2px solid hsl(var(--border));
+  background: white;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: hsl(var(--foreground));
+}
+
+.mcq-opt:hover:not(:disabled) { border-color: hsl(var(--game-player)); background: hsl(200 80% 97%); }
+.mcq-opt.correct { background: hsl(140 60% 55%); color: white; border-color: hsl(140 60% 45%); }
+.mcq-opt.wrong { background: hsl(var(--game-obstacle)); color: white; border-color: hsl(var(--game-obstacle)); }
+.mcq-opt:disabled { cursor: not-allowed; }
+
+.mcq-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  background: hsl(var(--game-player) / 0.1);
+  color: hsl(var(--game-player));
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-right: 6px;
+}
+
+.gameover-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 18px 0;
+}
+
+.gameover-stats .stat-val {
+  font-size: 28px;
+  font-weight: 800;
+  color: hsl(var(--game-player));
+}
+
+.gameover-stats .stat-lbl {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: hsl(var(--muted-foreground));
+  margin-top: 2px;
+}
+
+.touch-controls {
+  position: absolute;
+  bottom: 60px; left: 0; right: 0;
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  z-index: 5;
+}
+
+@media (max-width: 768px) {
+  .touch-controls { display: flex; }
+  .controls-hint { display: none; }
+}
+
+.touch-btn {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  font-size: 22px;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
